@@ -3,7 +3,7 @@ from conan.tools.cmake import CMakeToolchain, CMake
 from os import path
 
 class GeometryRecipe(ConanFile):
-    name    = "SloptMap"
+    name    = "Geometry"
     version = "0.1.0"
 
     # Optional metadata
@@ -16,17 +16,20 @@ class GeometryRecipe(ConanFile):
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
     options  = {
-        "shared": [True, False],
-        "fPIC"  : [True, False]
+        "shared"    : [True, False],
+        "fPIC"      : [True, False],
+        "unit_test" : [True, False]
     }
     default_options = {
-        "shared": False, 
-        "fPIC": True
+        "shared"    : False, 
+        "fPIC"      : True,
+        "unit_test" : False
     }
     generators = "CMakeDeps"
 
     def requirements(self):
-        pass
+        if self.options.get_safe("unit_test"):
+            self.requires("gtest/1.14.0")
 
     def build_requirements(self):
         pass
@@ -46,6 +49,7 @@ class GeometryRecipe(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self)
+        tc.variables["UNIT_TEST"] = self.options.get_safe("unit_test")
         tc.generate()
 
     def build(self):
