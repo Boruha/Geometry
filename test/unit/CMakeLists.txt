@@ -6,8 +6,15 @@ find_package(GTest REQUIRED)
 
 file(GLOB UNIT_TEST_CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
+target_include_directories(${TARGET_NAME_UNIT_TEST}
+    PRIVATE
+        ${INCLUDE_DIR})
+
 target_sources(${TARGET_NAME_UNIT_TEST}
     PUBLIC
+        ${HPP_FILES}
+    PRIVATE
+        ${CPP_FILES}
         ${UNIT_TEST_CPP_FILES}
         main.cpp)
 
