@@ -29,52 +29,50 @@ struct fint_t {
     using value_type = T;
 
 /* Data */    
-                            value_type number { 0 };
-    constexpr static inline value_type SCALE  { 65536 };
+                            value_type Number { 0 };
+    constexpr static inline value_type kScale { 65536 };
 
 /* Ctors */
               fint_t()                           = default;
     constexpr fint_t(const fint_t& rhs) noexcept = default;
     constexpr fint_t(fint_t&& rhs)      noexcept = default;
 
-    // constexpr template<typename U> fint_t(const U rhs) noexcept : number(static_cast<value_type>(rhs * static_cast<U>(SCALE))) {};
-
 /* Assignment */
-    constexpr fint_t& operator=(const fint_t& rhs)  noexcept { number = rhs.number;                    return *this; };
-    constexpr fint_t& operator=(fint_t&& rhs)       noexcept { number = std::exchange(rhs.number, 0);  return *this; };
-    constexpr fint_t& operator+=(const fint_t& rhs) noexcept { number += rhs.number;                   return *this; };
-    constexpr fint_t& operator-=(const fint_t& rhs) noexcept { number -= rhs.number;                   return *this; };
-    constexpr fint_t& operator*=(const fint_t& rhs) noexcept { number = (number * rhs.number) / SCALE; return *this; };
-    constexpr fint_t& operator/=(const fint_t& rhs) noexcept { number = (number * SCALE) / rhs.number; return *this; };
+    constexpr fint_t& operator=(const fint_t& rhs)  noexcept { Number = rhs.Number;                     return *this; };
+    constexpr fint_t& operator=(fint_t&& rhs)       noexcept { Number = std::exchange(rhs.Number, 0);   return *this; };
+    constexpr fint_t& operator+=(const fint_t& rhs) noexcept { Number += rhs.Number;                    return *this; };
+    constexpr fint_t& operator-=(const fint_t& rhs) noexcept { Number -= rhs.Number;                    return *this; };
+    constexpr fint_t& operator*=(const fint_t& rhs) noexcept { Number = (Number * rhs.Number) / kScale; return *this; };
+    constexpr fint_t& operator/=(const fint_t& rhs) noexcept { Number = (Number * kScale) / rhs.Number; return *this; };
 
-/* Assignment w/ value_type */
-    constexpr fint_t& operator+=(const value_type& rhs) noexcept { number += (rhs * SCALE); return *this; };
-    constexpr fint_t& operator-=(const value_type& rhs) noexcept { number -= (rhs * SCALE); return *this; };
-    constexpr fint_t& operator*=(const value_type& rhs) noexcept { number *= rhs;           return *this; };
-    constexpr fint_t& operator/=(const value_type& rhs) noexcept { number /= rhs;           return *this; };
+/* Assignment w/ primitive_type */
+    template<typename U> constexpr fint_t& operator+=(const U& rhs) noexcept { Number += (rhs * kScale); return *this; };
+    template<typename U> constexpr fint_t& operator-=(const U& rhs) noexcept { Number -= (rhs * kScale); return *this; };
+    template<typename U> constexpr fint_t& operator*=(const U& rhs) noexcept { Number *= rhs;            return *this; };
+    template<typename U> constexpr fint_t& operator/=(const U& rhs) noexcept { Number /= rhs;            return *this; };
 
 /* Operations */
-    constexpr fint_t operator+(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.number = number + rhs.number;           return new_t; };
-    constexpr fint_t operator-(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.number = number - rhs.number;           return new_t; };
-    constexpr fint_t operator*(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.number = (number * rhs.number) / SCALE; return new_t; };
-    constexpr fint_t operator/(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.number = (number * SCALE) / rhs.number; return new_t; };
+    constexpr fint_t operator+(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = Number + rhs.Number;            return new_t; };
+    constexpr fint_t operator-(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = Number - rhs.Number;            return new_t; };
+    constexpr fint_t operator*(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = (Number * rhs.Number) / kScale; return new_t; };
+    constexpr fint_t operator/(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = (Number * kScale) / rhs.Number; return new_t; };
 
-/* Operations w/ value_type */
-    constexpr fint_t operator+(const value_type& rhs) const noexcept { fint_t new_t {}; new_t.number = number + (rhs * SCALE); return new_t; };
-    constexpr fint_t operator-(const value_type& rhs) const noexcept { fint_t new_t {}; new_t.number = number - (rhs * SCALE); return new_t; };
-    constexpr fint_t operator*(const value_type& rhs) const noexcept { fint_t new_t {}; new_t.number = number * rhs;           return new_t; };
-    constexpr fint_t operator/(const value_type& rhs) const noexcept { fint_t new_t {}; new_t.number = number / rhs;           return new_t; };
+/* Operations w/ primitive_type */
+    template<typename U> constexpr fint_t operator+(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number + (rhs * kScale); return new_t; };
+    template<typename U> constexpr fint_t operator-(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number - (rhs * kScale); return new_t; };
+    template<typename U> constexpr fint_t operator*(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number * rhs;            return new_t; };
+    template<typename U> constexpr fint_t operator/(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number / rhs;            return new_t; };
 
 /* Logical comparations */
-    constexpr bool operator>(const fint_t& rhs)  const noexcept { return number > rhs.number;  };
-    constexpr bool operator<(const fint_t& rhs)  const noexcept { return number < rhs.number;  };
-    constexpr bool operator!=(const fint_t& rhs) const noexcept { return number != rhs.number; };
-    constexpr bool operator==(const fint_t& rhs) const noexcept { return number == rhs.number; };
+    constexpr bool operator>(const fint_t& rhs)  const noexcept { return Number > rhs.Number;  };
+    constexpr bool operator<(const fint_t& rhs)  const noexcept { return Number < rhs.Number;  };
+    constexpr bool operator!=(const fint_t& rhs) const noexcept { return Number != rhs.Number; };
+    constexpr bool operator==(const fint_t& rhs) const noexcept { return Number == rhs.Number; };
 
 /* Getters */
     template<typename U> constexpr U base() const noexcept { 
-        if constexpr(std::is_same_v<value_type, U>) { return number / SCALE; } 
-        else { return static_cast<U>(number) / static_cast<U>(SCALE); } 
+        if constexpr(std::is_same_v<value_type, U>) { return Number / kScale; } 
+        else { return static_cast<U>(Number) / static_cast<U>(kScale); } 
     };
 };
 
@@ -85,7 +83,7 @@ template<typename T, typename U>
 constexpr fint_t<T> 
 make_fint_t(const U rhs) noexcept {
     fint_t<T> new_t {};
-    new_t.number = rhs * fint_t<T>::SCALE;
+    new_t.Number = rhs * fint_t<T>::kScale;
     return new_t;
 };
 
