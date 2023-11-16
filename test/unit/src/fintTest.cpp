@@ -41,6 +41,24 @@ TEST(fint_t, Operations) {
     EXPECT_NEAR(sumBase, sumFixed.base<double>(), epsilon);
 }
 
+TEST(fint_t, Extra_Operations) {
+              auto base    { 1.0 };
+              auto fixed   { BPW::make_fint64_t(base) };
+    constexpr auto base2   { 2.0 };
+    constexpr auto fixed2  { BPW::make_fint64_t(base2) };
+    constexpr auto epsilon { 0.001 };
+
+    ++base;
+    ++fixed;
+    EXPECT_NEAR(base, fixed.base<double>(), epsilon);
+
+    --base;
+    --fixed;
+    EXPECT_NEAR(base, fixed.base<double>(), epsilon);
+
+
+}
+
 TEST(fint_t, Operations_Assignment) {
               auto base    { 1.0 };
               auto fixed   { BPW::make_fint64_t(base) };

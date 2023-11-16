@@ -16,20 +16,25 @@ class GeometryRecipe(ConanFile):
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
     options  = {
-        "shared"    : [True, False],
-        "fPIC"      : [True, False],
-        "unit_test" : [True, False]
+        "shared"         : [True, False],
+        "fPIC"           : [True, False],
+        "unit_test"      : [True, False],
+        "benchmark_test" : [True, False]
     }
     default_options = {
-        "shared"    : False, 
-        "fPIC"      : True,
-        "unit_test" : False
+        "shared"         : False, 
+        "fPIC"           : True,
+        "unit_test"      : False,
+        "benchmark_test" : False
     }
     generators = "CMakeDeps"
 
     def requirements(self):
         if self.options.get_safe("unit_test"):
             self.requires("gtest/1.14.0")
+
+        if self.options.get_safe("benchmark_test"):
+            self.requires("benchmark/1.8.3")
 
     def build_requirements(self):
         pass
@@ -44,12 +49,13 @@ class GeometryRecipe(ConanFile):
 
     def layout(self):
         self.folders.generators = path.join("build", self.settings.get_safe("os"), "generator")
-        self.folders.build = path.join("build", self.settings.get_safe("os"),
+        self.folders.build      = path.join("build", self.settings.get_safe("os"),
                                 self.settings.get_safe("arch"), self.settings.get_safe("build_type"))
 
     def generate(self):
         tc = CMakeToolchain(self)
-        tc.variables["UNIT_TEST"] = self.options.get_safe("unit_test")
+        tc.variables["UNIT_TEST"]      = self.options.get_safe("unit_test")
+        tc.variables["BENCHMARK_TEST"] = self.options.get_safe("benchmark_test")
         tc.generate()
 
     def build(self):

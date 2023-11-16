@@ -57,6 +57,10 @@ struct fint_t {
     constexpr fint_t operator*(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = (Number * rhs.Number) / kScale; return new_t; };
     constexpr fint_t operator/(const fint_t& rhs) const noexcept { fint_t new_t {};  new_t.Number = (Number * kScale) / rhs.Number; return new_t; };
 
+/* Extra Operations */
+    constexpr fint_t& operator++() noexcept { Number += kScale; return *this; };
+    constexpr fint_t& operator--() noexcept { Number -= kScale; return *this; };
+
 /* Operations w/ primitive_type */
     template<typename U> constexpr fint_t operator+(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number + (rhs * kScale); return new_t; };
     template<typename U> constexpr fint_t operator-(const U& rhs) const noexcept { fint_t new_t {}; new_t.Number = Number - (rhs * kScale); return new_t; };
@@ -68,6 +72,12 @@ struct fint_t {
     constexpr bool operator<(const fint_t& rhs)  const noexcept { return Number < rhs.Number;  };
     constexpr bool operator!=(const fint_t& rhs) const noexcept { return Number != rhs.Number; };
     constexpr bool operator==(const fint_t& rhs) const noexcept { return Number == rhs.Number; };
+
+/* Logical comparations w/primitive_type */
+    template<typename U> constexpr bool operator>(const U& rhs)  const noexcept { return Number > (rhs * kScale);  };
+    template<typename U> constexpr bool operator<(const U& rhs)  const noexcept { return Number < (rhs * kScale);  };
+    template<typename U> constexpr bool operator!=(const U& rhs) const noexcept { return Number != (rhs * kScale); };
+    template<typename U> constexpr bool operator==(const U& rhs) const noexcept { return Number == (rhs * kScale); };
 
 /* Getters */
     template<typename U> constexpr U base() const noexcept { 

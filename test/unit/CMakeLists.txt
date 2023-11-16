@@ -11,14 +11,12 @@ target_include_directories(${TARGET_NAME_UNIT_TEST}
         ${INCLUDE_DIR})
 
 target_sources(${TARGET_NAME_UNIT_TEST}
-    PUBLIC
-        ${HPP_FILES}
     PRIVATE
-        ${CPP_FILES}
+        ${HPP_FILES}
         ${UNIT_TEST_CPP_FILES}
         main.cpp)
 
 target_link_libraries(${TARGET_NAME_UNIT_TEST} 
-    PUBLIC
+    PRIVATE
         gtest::gtest)
         
