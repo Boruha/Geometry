@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.15)
 set(TARGET_NAME Geometry)
 project(${TARGET_NAME})
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+include(compiler_options)
+
 # add_library(${TARGET_NAME})
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)

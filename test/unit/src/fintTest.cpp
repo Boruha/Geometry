@@ -2,27 +2,29 @@
 
 #include <types/fint_t.hpp>
 
+using namespace BPW;
+
 TEST(fint_t, Ctor) {
-    constexpr auto iBase     { 5i64 };
-    constexpr auto fixedBase { BPW::make_fint64_t(iBase) };
-    EXPECT_EQ(fixedBase.Number,  iBase * BPW::fint64_t::kScale);
+    constexpr auto     iBase     { 5i64 };
+    constexpr fint64_t fixedBase { iBase };
+    EXPECT_EQ(fixedBase.Number,  iBase * fint64_t::kScale);
     EXPECT_EQ(fixedBase.base<std::int64_t>(),  iBase);
 
-    constexpr auto dBase      { 2.5 };
-    constexpr auto fixedBase2 { BPW::make_fint64_t(dBase) };
-    EXPECT_EQ(fixedBase2.Number, dBase * BPW::fint64_t::kScale);
+    constexpr auto     dBase      { 2.5 };
+    constexpr fint64_t fixedBase2 { dBase };
+    EXPECT_EQ(fixedBase2.Number, dBase * fint64_t::kScale);
     EXPECT_EQ(fixedBase2.base<double>(), dBase);
 
-    constexpr auto fBase      { 2.5f };
-    constexpr auto fixedBase3 { BPW::make_fint64_t(fBase) };
-    EXPECT_EQ(fixedBase3.Number, fBase * BPW::fint64_t::kScale);
+    constexpr auto     fBase      { 2.5f };
+    constexpr fint64_t fixedBase3 { fBase };
+    EXPECT_EQ(fixedBase3.Number, fBase * fint64_t::kScale);
     EXPECT_EQ(fixedBase3.base<float>(), fBase);
 }
 
 TEST(fint_t, Operations) {
-    constexpr auto base    { 2.5 };
-    constexpr auto fixed   { BPW::make_fint64_t(base) };
-    constexpr auto epsilon { 0.001 };
+    constexpr auto     base    { 2.5 };
+    constexpr fint64_t fixed   { base };
+    constexpr auto     epsilon { 0.001 };
     
     constexpr auto multBase  { base * base };
     constexpr auto multFixed { fixed * fixed };
@@ -36,17 +38,17 @@ TEST(fint_t, Operations) {
     constexpr auto sumFixed { fixed + fixed };
     EXPECT_NEAR(sumBase, sumFixed.base<double>(), epsilon);
 
-    constexpr auto subsBase  { base - base };
-    constexpr auto subsFixed { fixed - fixed };
-    EXPECT_NEAR(sumBase, sumFixed.base<double>(), epsilon);
+    constexpr auto subBase  { base - base };
+    constexpr auto subFixed { fixed - fixed };
+    EXPECT_NEAR(subBase, subFixed.base<double>(), epsilon);
 }
 
 TEST(fint_t, Extra_Operations) {
-              auto base    { 1.0 };
-              auto fixed   { BPW::make_fint64_t(base) };
-    constexpr auto base2   { 2.0 };
-    constexpr auto fixed2  { BPW::make_fint64_t(base2) };
-    constexpr auto epsilon { 0.001 };
+              auto     base    { 1.0 };
+              fint64_t fixed   { base };
+    constexpr auto     base2   { 2.0 };
+    constexpr fint64_t fixed2  { base2 };
+    constexpr auto     epsilon { 0.001 };
 
     ++base;
     ++fixed;
@@ -55,14 +57,12 @@ TEST(fint_t, Extra_Operations) {
     --base;
     --fixed;
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
-
-
 }
 
 TEST(fint_t, Operations_Assignment) {
-              auto base    { 1.0 };
-              auto fixed   { BPW::make_fint64_t(base) };
-    constexpr auto epsilon { 0.001 };
+              auto     base    { 2.5 };
+              fint64_t fixed   { base };
+    constexpr auto     epsilon { 0.001 };
 
     base  += base;
     fixed += fixed;
@@ -82,36 +82,32 @@ TEST(fint_t, Operations_Assignment) {
 }
 
 TEST(fint_t, Operations_Primitive_Type) {
-    constexpr auto base    { 2.5 };
-    constexpr auto fixed   { BPW::make_fint64_t(base) };
-    constexpr auto epsilon { 0.001 };
+    constexpr auto     base    { 2.5 };
+    constexpr fint64_t fixed   { base };
+    constexpr auto     epsilon { 0.001 };
     
-    constexpr auto multBase  { base * base };
-    constexpr auto multFixed { fixed * base };
+    constexpr auto     multBase  { base * base };
+    constexpr fint64_t multFixed { fixed * base };
     EXPECT_NEAR(multBase, multFixed.base<double>(), epsilon);
 
-    constexpr auto divBase  { base / base };
-    constexpr auto divFixed { fixed / base };
+    constexpr auto     divBase  { base / base };
+    constexpr fint64_t divFixed { fixed / base };
     EXPECT_NEAR(divBase, divFixed.base<double>(), epsilon);
 
-    constexpr auto sumBase  { base + base };
-    constexpr auto sumFixed { fixed + base };
+    constexpr auto     sumBase  { base + base };
+    constexpr fint64_t sumFixed { fixed + base };
     EXPECT_NEAR(sumBase, sumFixed.base<double>(), epsilon);
 
-    constexpr auto subsBase  { base - base };
-    constexpr auto subsFixed { fixed - base };
-    EXPECT_NEAR(sumBase, sumFixed.base<double>(), epsilon);
+    constexpr auto     subBase  { base - base };
+    constexpr fint64_t subFixed { fixed - base };
+    EXPECT_NEAR(subBase, subFixed.base<double>(), epsilon);
 }
 
 TEST(fint_t, Operations_Assignment_Primitive_Type) {
     constexpr auto epsilon { 0.001 };
 
-    auto base  { 1.0 };
-    auto fixed { BPW::make_fint64_t(base) };
-    EXPECT_NEAR(base, fixed.base<double>(), epsilon);
-
-    fixed += base;
-    base  += base;
+    auto     base  { 2.5 };
+    fint64_t fixed { base };
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
 
     fixed *= base;
@@ -122,15 +118,19 @@ TEST(fint_t, Operations_Assignment_Primitive_Type) {
     base  /= base;
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
     
+    fixed += base;
+    base  += base;
+    EXPECT_NEAR(base, fixed.base<double>(), epsilon);
+
+    
     fixed -= base;
     base  -= base;
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
 }
 
 TEST(fint_t, Logical_Operations) {
-    constexpr auto epsilon { 0.001 };
-    constexpr auto lhs     { BPW::make_fint64_t(5.0) };
-              auto rhs     { BPW::make_fint64_t(2.5) };
+    constexpr fint64_t lhs { 5.0 };
+              fint64_t rhs { 2.5 };
 
     EXPECT_FALSE(lhs == rhs);
     EXPECT_FALSE(lhs < rhs);

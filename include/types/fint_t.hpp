@@ -22,20 +22,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <type_traits>
 #include <iostream>
 
+// TODO: Add Type_traits
+
 namespace BPW {
 
 template <typename T>
 struct fint_t {
-    using value_type = T;
-
 /* Data */    
-                            value_type Number { 0 };
-    constexpr static inline value_type kScale { 65536 };
+                            T Number { 0 };
+    constexpr static inline T kScale { 65536 };
 
 /* Ctors */
               fint_t()                           = default;
     constexpr fint_t(const fint_t& rhs) noexcept = default;
     constexpr fint_t(fint_t&& rhs)      noexcept = default;
+
+    template<typename U> constexpr fint_t(const U rhs) : Number(kScale * rhs) {};
 
 /* Assignment */
     constexpr fint_t& operator=(const fint_t& rhs)  noexcept { Number = rhs.Number;                     return *this; };
@@ -81,31 +83,12 @@ struct fint_t {
 
 /* Getters */
     template<typename U> constexpr U base() const noexcept { 
-        if constexpr(std::is_same_v<value_type, U>) { return Number / kScale; } 
+        if constexpr(std::is_same_v<T, U>) { return Number / kScale; } 
         else { return static_cast<U>(Number) / static_cast<U>(kScale); } 
     };
 };
 
 using fint64_t = fint_t<std::int64_t>;
 using fint32_t = fint_t<std::int32_t>;
-
-template<typename T, typename U> 
-constexpr fint_t<T> 
-make_fint_t(const U rhs) noexcept {
-    fint_t<T> new_t {};
-    new_t.Number = rhs * fint_t<T>::kScale;
-    return new_t;
-};
-
-template<typename U> 
-constexpr fint64_t make_fint64_t(const U rhs) noexcept {
-    return make_fint_t<std::int64_t>(rhs);
-};
-
-template<typename U> 
-constexpr fint32_t make_fint32_t(const U rhs) noexcept {
-    return make_fint_t<std::int32_t>(rhs);
-};
-
 
 }
