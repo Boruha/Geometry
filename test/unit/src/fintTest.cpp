@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <types/fint_t.hpp>
+#include <Geometry/Types/TypeAliases.hpp>
 
 using namespace BPW;
 

@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-#include <types/fint_t.hpp>
+#include <Geometry/Types/TypeAliases.hpp>
 
 #include <algorithm>
 #include <iostream>

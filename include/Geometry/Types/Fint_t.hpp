@@ -17,11 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <cstdint>
 #include <utility>
-#include <type_traits>
-#include <iostream>
 
+// #include <type_traits>
 // TODO: Add Type_traits
 
 namespace BPW {
@@ -87,8 +85,5 @@ struct fint_t {
         else { return static_cast<U>(Number) / static_cast<U>(kScale); } 
     };
 };
-
-using fint64_t = fint_t<std::int64_t>;
-using fint32_t = fint_t<std::int32_t>;
 
 }

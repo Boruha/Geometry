@@ -1,9 +1,10 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake
+from conan.tools.files import copy
 from os import path
 
 class GeometryRecipe(ConanFile):
-    name    = "Geometry"
+    name    = "geometry"
     version = "0.1.0"
 
     # Optional metadata
@@ -36,9 +37,6 @@ class GeometryRecipe(ConanFile):
         if self.options.get_safe("benchmark_test"):
             self.requires("benchmark/1.8.3")
 
-    def build_requirements(self):
-        pass
-
     def config_options(self):
         if self.settings.os == "Windows":
             self.options.rm_safe("fPIC")
@@ -50,7 +48,7 @@ class GeometryRecipe(ConanFile):
     def layout(self):
         self.folders.generators = path.join("build", self.settings.get_safe("os"), "generator")
         self.folders.build      = path.join("build", self.settings.get_safe("os"),
-                                self.settings.get_safe("arch"), self.settings.get_safe("build_type"))
+                                    self.settings.get_safe("arch"), self.settings.get_safe("build_type"))
 
     def generate(self):
         tc = CMakeToolchain(self)
@@ -65,6 +63,15 @@ class GeometryRecipe(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["Geometry"]
+        self.cpp_info.includedirs = ['include']
+
         self.cpp_info.set_property("cmake_find_mode", "both")
+
+    def package(self):
+        copy(self, "*.hpp", path.join(self.source_folder, "include"), path.join(self.package_folder, "include"))
+
+        copy(self, "conanfile.py", self.source_folder, self.package_folder)
+        copy(self, "CMakeLists.txt", self.source_folder, self.package_folder)
+        copy(self, "compiler_options.cmake", self.source_folder, self.package_folder)
 
     
