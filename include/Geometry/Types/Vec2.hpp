@@ -17,11 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Geometry/Utils.hpp"
+#include "Geometry/utils.hpp"
 
 #include <utility>
 
-namespace BPW {
+namespace bpw {
 
 template<typename T>
 struct Vec2 {

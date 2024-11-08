@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <Geometry/Types/TypeAliases.hpp>
+#include <Geometry/Types/type_aliases.hpp>
 
-using namespace BPW;
+using namespace bpw;
 
-TEST(fint_t, Ctor) {
+TEST(fint_t, ctor) {
     constexpr auto     iBase     { 5i64 };
     constexpr fint64_t fixedBase { iBase };
     EXPECT_EQ(fixedBase.Number,  iBase * fint64_t::kScale);
@@ -21,7 +21,7 @@ TEST(fint_t, Ctor) {
     EXPECT_EQ(fixedBase3.base<float>(), fBase);
 }
 
-TEST(fint_t, Operations) {
+TEST(fint_t, operations) {
     constexpr auto     base    { 2.5 };
     constexpr fint64_t fixed   { base };
     constexpr auto     epsilon { 0.001 };
@@ -43,7 +43,7 @@ TEST(fint_t, Operations) {
     EXPECT_NEAR(subBase, subFixed.base<double>(), epsilon);
 }
 
-TEST(fint_t, Extra_Operations) {
+TEST(fint_t, extra_operations) {
               auto     base    { 1.0 };
               fint64_t fixed   { base };
     constexpr auto     base2   { 2.0 };
@@ -59,7 +59,7 @@ TEST(fint_t, Extra_Operations) {
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
 }
 
-TEST(fint_t, Operations_Assignment) {
+TEST(fint_t, operations_assignment) {
               auto     base    { 2.5 };
               fint64_t fixed   { base };
     constexpr auto     epsilon { 0.001 };
@@ -81,7 +81,7 @@ TEST(fint_t, Operations_Assignment) {
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
 }
 
-TEST(fint_t, Operations_Primitive_Type) {
+TEST(fint_t, operations_primitive_type) {
     constexpr auto     base    { 2.5 };
     constexpr fint64_t fixed   { base };
     constexpr auto     epsilon { 0.001 };
@@ -103,7 +103,7 @@ TEST(fint_t, Operations_Primitive_Type) {
     EXPECT_NEAR(subBase, subFixed.base<double>(), epsilon);
 }
 
-TEST(fint_t, Operations_Assignment_Primitive_Type) {
+TEST(fint_t, operations_assignment_primitive_type) {
     constexpr auto epsilon { 0.001 };
 
     auto     base  { 2.5 };
@@ -128,7 +128,7 @@ TEST(fint_t, Operations_Assignment_Primitive_Type) {
     EXPECT_NEAR(base, fixed.base<double>(), epsilon);
 }
 
-TEST(fint_t, Logical_Operations) {
+TEST(fint_t, logical_operations) {
     constexpr fint64_t lhs { 5.0 };
               fint64_t rhs { 2.5 };
 

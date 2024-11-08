@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <Geometry/Types/TypeAliases.hpp>
+#include <Geometry/Types/type_aliases.hpp>
 
-using namespace BPW;
+using namespace bpw;
 
-TEST(Vec2, Ctor) {
+TEST(vec2, ctor) {
     constexpr Vec2i32_t r {};
     EXPECT_EQ(r.X, 0);
     EXPECT_EQ(r.Y, 0);
@@ -14,7 +14,7 @@ TEST(Vec2, Ctor) {
     EXPECT_EQ(s.Y, 4);
 }
 
-TEST(Vec2, Operations) {
+TEST(vec2, operations) {
     constexpr Vec2fi64_t r       { 2.5, 3.0 };
     constexpr auto       epsilon { 0.001 };
     
@@ -29,7 +29,7 @@ TEST(Vec2, Operations) {
     EXPECT_EQ(r.Y, subR.Y);
 }
 
-TEST(Vec2, Operations_Assignment) {
+TEST(vec2, operations_assignment) {
     constexpr Vec2d_t r       { 2.5, 3.0 };
               Vec2d_t s       { r };
     constexpr auto    epsilon { 0.001 };
@@ -45,7 +45,7 @@ TEST(Vec2, Operations_Assignment) {
     EXPECT_NEAR(r.Y, s.Y, epsilon);
 }
 
-TEST(Vec2, Operations_Primitive_Type) {
+TEST(vec2, operations_primitive_type) {
     constexpr double  x       { 2.5 };
               Vec2d_t s       { x, x };
     constexpr auto    epsilon { 0.001 };
@@ -61,7 +61,7 @@ TEST(Vec2, Operations_Primitive_Type) {
     EXPECT_NEAR(x, s.Y, epsilon);
 }
 
-TEST(Vec2, Logical_Operations) {
+TEST(vec2, logical_operations) {
     constexpr Vec2d_t lhs { 5.0, 5.0 };
               Vec2d_t rhs { 2.5, 2.5 };
 
@@ -83,7 +83,7 @@ TEST(Vec2, Logical_Operations) {
     EXPECT_TRUE(lhs != rhs);
 }
 
-TEST(Vec2, Extra_Operations) {
+TEST(vec2, extra_operations) {
     constexpr Vec2d_t lhs     { 5.0, 5.0 };
     constexpr auto    epsilon { 0.001 };
     EXPECT_NEAR(lhs.Length() * lhs.Length(), lhs.LengthSqr(), epsilon);

@@ -4,7 +4,7 @@ from conan.tools.files import copy
 from os import path
 
 class GeometryRecipe(ConanFile):
-    name    = "geometry"
+    name    = "bpw-geometry"
     version = "0.1.0"
 
     # Optional metadata
@@ -32,10 +32,10 @@ class GeometryRecipe(ConanFile):
 
     def requirements(self):
         if self.options.get_safe("unit_test"):
-            self.requires("gtest/1.14.0")
+            self.requires("gtest/1.15.0")
 
         if self.options.get_safe("benchmark_test"):
-            self.requires("benchmark/1.8.3")
+            self.requires("benchmark/1.9.0")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -47,11 +47,20 @@ class GeometryRecipe(ConanFile):
 
     def layout(self):
         self.folders.generators = path.join("build", self.settings.get_safe("os"), "generator")
-        self.folders.build      = path.join("build", self.settings.get_safe("os"),
-                                    self.settings.get_safe("arch"), self.settings.get_safe("build_type"))
+        self.folders.build = path.join("build", self.settings.get_safe("os"), 
+                                                self.settings.get_safe("arch"), 
+                                                self.settings.get_safe("build_type"))
 
     def generate(self):
+        compiler_name = self.settings.get_safe("compiler")
+        compiler_c    = { "msvc": "cl", "clang": "clang" }
+        compiler_cxx  = { "msvc": "cl", "clang": "clang++" }
+
         tc = CMakeToolchain(self)
+        if compiler_name in compiler_c:
+            tc.variables["CMAKE_C_COMPILER"] = compiler_c[compiler_name] 
+        if compiler_name in compiler_cxx:
+            tc.variables["CMAKE_CXX_COMPILER"] = compiler_cxx[compiler_name]
         tc.variables["UNIT_TEST"]      = self.options.get_safe("unit_test")
         tc.variables["BENCHMARK_TEST"] = self.options.get_safe("benchmark_test")
         tc.generate()

@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace BPW {
+namespace bpw {
 
 constexpr bool
 Epsilon(const auto& lhs, const auto& rhs) {

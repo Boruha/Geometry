@@ -1,13 +1,13 @@
 #include <benchmark/benchmark.h>
 
-#include <Geometry/Types/TypeAliases.hpp>
+#include <Geometry/Types/type_aliases.hpp>
 
 #include <algorithm>
 #include <iostream>
 #include <numeric>
 #include <vector>
 
-using namespace BPW;
+using namespace bpw;
 
 static void 
 BM_doubles(benchmark::State& state) {

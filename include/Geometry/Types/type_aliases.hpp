@@ -1,9 +1,9 @@
-#include "Geometry/Types/Fint_t.hpp"
-#include "Geometry/Types/Vec2.hpp"
+#include "Geometry/Types/fint_t.hpp"
+#include "Geometry/Types/vec2.hpp"
 
 #include <cstdint>
 
-namespace BPW {
+namespace bpw {
     using fint64_t  = fint_t<std::int64_t>;
     using fint32_t  = fint_t<std::int32_t>;
 
