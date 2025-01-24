@@ -7,3 +7,7 @@ endif()
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     message("USING CLANG")
 endif()
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    message("USING GCC/G++")
+endif()

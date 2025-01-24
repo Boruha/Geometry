@@ -53,8 +53,8 @@ class GeometryRecipe(ConanFile):
 
     def generate(self):
         compiler_name = self.settings.get_safe("compiler")
-        compiler_c    = { "msvc": "cl", "clang": "clang" }
-        compiler_cxx  = { "msvc": "cl", "clang": "clang++" }
+        compiler_c    = { "msvc": "cl", "clang": "clang", "gcc": "gcc" }
+        compiler_cxx  = { "msvc": "cl", "clang": "clang++", "gcc": "g++" }
 
         tc = CMakeToolchain(self)
         if compiler_name in compiler_c:

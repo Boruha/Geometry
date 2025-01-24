@@ -1,5 +1,5 @@
-#include "Geometry/Types/fint_t.hpp"
-#include "Geometry/Types/vec2.hpp"
+#include "geometry/types/fint_t.hpp"
+#include "geometry/types/vec2.hpp"
 
 #include <cstdint>
 

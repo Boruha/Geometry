@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
-#include <Geometry/Types/type_aliases.hpp>
+#include <geometry/types/type_aliases.hpp>
 
 using namespace bpw;
 
 TEST(fint_t, ctor) {
-    constexpr auto     iBase     { 5i64 };
+    constexpr auto     iBase     { 5l };
     constexpr fint64_t fixedBase { iBase };
     EXPECT_EQ(fixedBase.Number,  iBase * fint64_t::kScale);
     EXPECT_EQ(fixedBase.base<std::int64_t>(),  iBase);

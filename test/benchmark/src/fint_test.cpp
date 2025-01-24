@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-#include <Geometry/Types/type_aliases.hpp>
+#include <geometry/types/type_aliases.hpp>
 
 #include <algorithm>
 #include <iostream>
