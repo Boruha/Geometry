@@ -1,5 +1,5 @@
 from conan import ConanFile
-from conan.tools.cmake import CMakeToolchain, CMake
+from conan.tools.cmake import CMakeToolchain, CMake, CMakeDeps, cmake_layout
 from conan.tools.files import copy
 from os import path
 
@@ -28,14 +28,13 @@ class GeometryRecipe(ConanFile):
         "unit_test"      : False,
         "benchmark_test" : False
     }
-    generators = "CMakeDeps"
 
     def requirements(self):
         if self.options.get_safe("unit_test"):
-            self.requires("gtest/1.15.0")
+            self.requires("gtest/1.18.0")
 
         if self.options.get_safe("benchmark_test"):
-            self.requires("benchmark/1.9.0")
+            self.requires("benchmark/1.9.5")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -46,10 +45,7 @@ class GeometryRecipe(ConanFile):
             self.options.rm_safe("fPIC")
 
     def layout(self):
-        self.folders.generators = path.join("build", self.settings.get_safe("os"), "generator")
-        self.folders.build = path.join("build", self.settings.get_safe("os"), 
-                                                self.settings.get_safe("arch"), 
-                                                self.settings.get_safe("build_type"))
+        cmake_layout(self)
 
     def generate(self):
         compiler_name = self.settings.get_safe("compiler")
@@ -64,6 +60,9 @@ class GeometryRecipe(ConanFile):
         tc.variables["UNIT_TEST"]      = self.options.get_safe("unit_test")
         tc.variables["BENCHMARK_TEST"] = self.options.get_safe("benchmark_test")
         tc.generate()
+
+        deps = CMakeDeps(self)
+        deps.generate()
 
     def build(self):
         cmake = CMake(self)
